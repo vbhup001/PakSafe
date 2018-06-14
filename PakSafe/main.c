@@ -8,8 +8,11 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "io.c"
+#include "rc522.h"
 
 int cnt = 0;
+
+//-------------------BEGIN Timer Code-----------------------
 volatile unsigned char TimerFlag = 0; // TimerISR() sets this to 1. C programmer should clear to 0.
 
 // Internal variables for mapping AVR's ISR to our cleaner TimerISR model.
@@ -75,75 +78,66 @@ unsigned char GetBit(unsigned char x, unsigned char k) {
 	return ((x & (0x01 << k)) != 0);
 }
 
-enum LCDStates { lcdInit, no_package, package } lcdState;
-	
-void LCDFSM(unsigned char print){
-	switch(lcdState) { //Transitions
-		case lcdInit: 
-			lcdState = no_package;
-			break;
-			
-		case no_package:
-			if(print == 1){
-				lcdState = package;
-			}
-			else{
-				lcdState = no_package;
-			}
-			break;
-			
-		case package:
-			if(print == 0){
-				lcdState = no_package;
-			}
-			else{
-				lcdState = package;
-			}
-			break;
-			
-		default:
-			lcdState = lcdInit;
-			break;
-	}//END Transitions
-	
-	switch(lcdState) { //State actions
-		case lcdInit:
-			break;
-		
-		case no_package:
-			LCD_ClearScreen();
-			LCD_DisplayString(1, "PakSafe is empty");
-			break;
-		
-		case package:
-			LCD_ClearScreen();
-			LCD_DisplayString(1, "Package inside");
-			break;
-		
-		default:
-			break;
-	}//END State actions
-	
-}
-
-
 unsigned char tmpB = 0x00;
 unsigned char lock = 0x00;
 unsigned char print = 0x00;
+unsigned char code;
+unsigned char piccpresent;
+unsigned char pcount = 0x00;
+
+//RFID reading
+
+enum rfid{wait1, getcode} state;
+
+int tick2(int state){
+	switch(state){
+		case wait1:
+			state = getcode;
+			break;
+		case getcode:
+			state = wait1;
+			break;
+		default:
+			state = wait1;
+			break;
+	}
+	switch(state){
+		case wait1:
+			code = 0x00;
+			//PORTA = 0xFF;
+			break;
+		case getcode:
+			piccpresent = rc522_wakeup(); //check if tag is present
+			if(piccpresent == 0x04){
+				code = rc522id(); //get id from tag
+			}
+			else{
+				code = 0x00;
+			}
+			//PORTA = code; //test printing
+			break;
+		default:
+			//code = 0x00;//test printing
+			break;
+	}
+	return state;
+}
+
+//end RFID reading
 
 enum PakStates { Init, locked_np, unlocked_rfid, locked_p, unlocked_keypad } State;
 
-void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
+void PakSafe() {
 	switch(State) { // Transitions
 		case Init:
 			State = locked_np;
 			break;
 
 		case locked_np: //no package
-			if(RFID == 1){
+			if(code == 0xD0){ //white card
 				State = unlocked_rfid;
 			}
-			else if(keypad == 1){
+			else if(code == 0x1B){ //keychain
 				State = unlocked_keypad;
 			}
 			else{
@@ -152,19 +146,22 @@ void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
 			break;
 
 		case unlocked_rfid:
-			if(IR == 1){
+			/*if(IR == 1){
 				State = locked_p;
 			}
 			else{
 				State = unlocked_rfid;
 			}
+			*/
+			State = locked_p;
+			pcount++;
 			break;
 
 		case locked_p: //package
-			if(RFID == 1){
+			if(code == 0xD0){ //white card
 				State = unlocked_rfid;
 			}
-			else if(keypad == 1){
+			else if(code == 0x1B){ //keychain
 				State = unlocked_keypad;
 			}
 			else{
@@ -173,12 +170,14 @@ void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
 			break;
 		
 		case unlocked_keypad:
-			if(IR == 1){
+			/*if(IR == 1){
 				State = locked_np;
 			}
 			else{
 				State = unlocked_keypad;
-			}
+			}*/
+			State = locked_np;
+			pcount = 0x00;
 			break;
 		
 		default:
@@ -191,39 +190,48 @@ void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
 			break;
 
 		case locked_np:
+			tick2(wait1);
 			lock = 0; //closed
-			print = 0; //"No Package";
+			//print = 0; //"No Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
-			LCDFSM(print);
-			PORTB = tmpB;
+			PORTA = 0x01;//power and no package
+			PORTD = tmpB;
 			break;
 
 		case unlocked_rfid:
 			lock = 1; //open
-			print = 1; //"Package";
+			//print = 1; //"Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
-			PORTB = tmpB;
-			LCDFSM(print);
+			PORTD = tmpB;
+			//-------------------nothing
 			break;
 
 		case locked_p:
+			tick2(wait1);
 			lock = 0; //closed
-			print = 1; //"Package";
+			//print = 1; //"Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
-			PORTB = tmpB;
-			LCDFSM(print);
+			PORTD = tmpB;
+			if(pcount == 1){
+				PORTA = 0x03;//Power and 1 package
+			}
+			else if(pcount == 2){
+				PORTA = 0x07;//Power and 2
+			}
+			else if(pcount == 3){
+				PORTA = 0x0F;//Power and 3
+			}
+			else{
+				PORTA = 0x1F;//Power and 4
+			}
 			break;
 
 		case unlocked_keypad:
 			lock = 1; //open
-			print = 0; //"No Package";
+			//print = 0; //"No Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
-			PORTB = tmpB;
-			LCDFSM(print);
+			PORTD = tmpB;
+			//-------------------nothing
 			break;
 		
 		default:
@@ -233,47 +241,29 @@ void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
 
 
 int main(void){
-	//input
-	DDRC = 0x00; //sets to 0 for input
-	PORTC = 0xFF; //initializes to all 1s
-
-	//output
+	
+	SPI_MasterInit();
+	rc522init();
 	DDRA = 0xFF; //sets to 1 for output
 	PORTA = 0x00; //sets to all 0s
-	DDRB = 0xFF; //sets to 1 for output
-	PORTB = 0x00; //sets to all 0s
+	//DDRB = 0xFF; //sets to 1 for output
+	//PORTB = 0x00; //sets to all 0s
+	DDRC = 0x00; //sets to 0 for input
+	PORTC = 0xFF; //initializes to all 1s
 	DDRD = 0xFF; //sets to 1 for output
 	PORTD = 0x00; //sets to all 0s
 
-	unsigned char tmpA = 0x00;
-	unsigned char RFID = 0x00;
-	unsigned char IR = 0x00;
-	unsigned char keypad = 0x00;
-	
-	// Initializes the LCD display
-	LCD_init();
-	
-	TimerSet(10);
+	TimerSet(80);
 	TimerOn();
 	
 	State = Init; // Initial state
-	lcdState = lcdInit;
-	// Replace with your application code
 	while (1){
 		tmpA = ~PINC;
 		
-		RFID = GetBit(tmpA, 0);
-		IR = GetBit(tmpA, 1);
-		keypad = GetBit(tmpA, 2);
-		
-		PakSafe(RFID, IR, keypad);
+		PakSafe();
 		
 		while (!TimerFlag);	// Wait 1 sec
 		TimerFlag = 0;
 	}
 	return 0;
 }
-
-
-	
-	

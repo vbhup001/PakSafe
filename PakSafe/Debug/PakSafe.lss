@@ -3,31 +3,31 @@ PakSafe.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000024  00800100  000003f0  00000484  2**0
+  0 .data         00000004  00800100  0000045c  000004f0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000003f0  00000000  00000000  00000094  2**1
+  1 .text         0000045c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000000a  00800124  00800124  000004a8  2**0
+  2 .bss          0000000c  00800104  00800104  000004f4  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000004a8  2**0
+  3 .comment      00000030  00000000  00000000  000004f4  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000004d8  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000524  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000a8  00000000  00000000  00000518  2**0
+  5 .debug_aranges 000000e0  00000000  00000000  00000564  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000fc2  00000000  00000000  000005c0  2**0
+  6 .debug_info   000013f7  00000000  00000000  00000644  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000956  00000000  00000000  00001582  2**0
+  7 .debug_abbrev 00000a33  00000000  00000000  00001a3b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000006e1  00000000  00000000  00001ed8  2**0
+  8 .debug_line   000008c8  00000000  00000000  0000246e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000017c  00000000  00000000  000025bc  2**2
+  9 .debug_frame  0000020c  00000000  00000000  00002d38  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000055f  00000000  00000000  00002738  2**0
+ 10 .debug_str    0000061f  00000000  00000000  00002f44  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000749  00000000  00000000  00002c97  2**0
+ 11 .debug_loc    000006dc  00000000  00000000  00003563  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000b0  00000000  00000000  000033e0  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  00003c3f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -59,7 +59,7 @@ Disassembly of section .text:
   2e:	00 00       	nop
   30:	4a c0       	rjmp	.+148    	; 0xc6 <__bad_interrupt>
   32:	00 00       	nop
-  34:	c7 c0       	rjmp	.+398    	; 0x1c4 <__vector_13>
+  34:	03 c1       	rjmp	.+518    	; 0x23c <__vector_13>
   36:	00 00       	nop
   38:	46 c0       	rjmp	.+140    	; 0xc6 <__bad_interrupt>
   3a:	00 00       	nop
@@ -116,20 +116,20 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e0 ef       	ldi	r30, 0xF0	; 240
-  a0:	f3 e0       	ldi	r31, 0x03	; 3
+  9e:	ec e5       	ldi	r30, 0x5C	; 92
+  a0:	f4 e0       	ldi	r31, 0x04	; 4
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
   a8:	07 90       	elpm	r0, Z+
   aa:	0d 92       	st	X+, r0
-  ac:	a4 32       	cpi	r26, 0x24	; 36
+  ac:	a4 30       	cpi	r26, 0x04	; 4
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
 
 000000b2 <__do_clear_bss>:
   b2:	21 e0       	ldi	r18, 0x01	; 1
-  b4:	a4 e2       	ldi	r26, 0x24	; 36
+  b4:	a4 e0       	ldi	r26, 0x04	; 4
   b6:	b1 e0       	ldi	r27, 0x01	; 1
   b8:	01 c0       	rjmp	.+2      	; 0xbc <.do_clear_bss_start>
 
@@ -137,589 +137,652 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	ae 32       	cpi	r26, 0x2E	; 46
+  bc:	a0 31       	cpi	r26, 0x10	; 16
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	5b d1       	rcall	.+694    	; 0x37a <main>
-  c4:	93 c1       	rjmp	.+806    	; 0x3ec <_exit>
+  c2:	a1 d1       	rcall	.+834    	; 0x406 <main>
+  c4:	c9 c1       	rjmp	.+914    	; 0x458 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
-000000c8 <delay_ms>:
+000000c8 <SPI_MasterInit>:
 unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
 	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
 }
 unsigned char GetBit(unsigned char x, unsigned char k) {
 	return ((x & (0x01 << k)) != 0);
 }
-  c8:	18 16       	cp	r1, r24
-  ca:	19 06       	cpc	r1, r25
-  cc:	5c f0       	brlt	.+22     	; 0xe4 <delay_ms+0x1c>
-  ce:	08 95       	ret
-  d0:	00 00       	nop
-  d2:	21 50       	subi	r18, 0x01	; 1
-  d4:	31 09       	sbc	r19, r1
-  d6:	e1 f7       	brne	.-8      	; 0xd0 <delay_ms+0x8>
-  d8:	4f 5f       	subi	r20, 0xFF	; 255
-  da:	5f 4f       	sbci	r21, 0xFF	; 255
-  dc:	48 17       	cp	r20, r24
-  de:	59 07       	cpc	r21, r25
-  e0:	29 f4       	brne	.+10     	; 0xec <delay_ms+0x24>
+  c8:	8f eb       	ldi	r24, 0xBF	; 191
+  ca:	84 b9       	out	0x04, r24	; 4
+  cc:	80 e4       	ldi	r24, 0x40	; 64
+  ce:	85 b9       	out	0x05, r24	; 5
+  d0:	8c b5       	in	r24, 0x2c	; 44
+  d2:	81 65       	ori	r24, 0x51	; 81
+  d4:	8c bd       	out	0x2c, r24	; 44
+  d6:	08 95       	ret
+
+000000d8 <SPI_MasterTransmit>:
+  d8:	8e bd       	out	0x2e, r24	; 46
+  da:	0d b4       	in	r0, 0x2d	; 45
+  dc:	07 fe       	sbrs	r0, 7
+  de:	fd cf       	rjmp	.-6      	; 0xda <SPI_MasterTransmit+0x2>
+  e0:	8e b5       	in	r24, 0x2e	; 46
   e2:	08 95       	ret
-  e4:	40 e0       	ldi	r20, 0x00	; 0
-  e6:	50 e0       	ldi	r21, 0x00	; 0
-  e8:	77 e0       	ldi	r23, 0x07	; 7
-  ea:	63 e0       	ldi	r22, 0x03	; 3
-  ec:	27 2f       	mov	r18, r23
-  ee:	36 2f       	mov	r19, r22
-  f0:	ef cf       	rjmp	.-34     	; 0xd0 <delay_ms+0x8>
 
-000000f2 <LCD_WriteCommand>:
-  f2:	2e 98       	cbi	0x05, 6	; 5
-  f4:	8b b9       	out	0x0b, r24	; 11
-  f6:	2f 9a       	sbi	0x05, 7	; 5
-  f8:	00 00       	nop
-  fa:	2f 98       	cbi	0x05, 7	; 5
-  fc:	82 e0       	ldi	r24, 0x02	; 2
-  fe:	90 e0       	ldi	r25, 0x00	; 0
- 100:	e3 cf       	rjmp	.-58     	; 0xc8 <delay_ms>
- 102:	08 95       	ret
+000000e4 <readrc522>:
+  e4:	2c 98       	cbi	0x05, 4	; 5
+  e6:	88 0f       	add	r24, r24
+  e8:	80 68       	ori	r24, 0x80	; 128
+  ea:	f6 df       	rcall	.-20     	; 0xd8 <SPI_MasterTransmit>
+  ec:	80 e0       	ldi	r24, 0x00	; 0
+  ee:	f4 df       	rcall	.-24     	; 0xd8 <SPI_MasterTransmit>
+  f0:	2c 9a       	sbi	0x05, 4	; 5
+  f2:	08 95       	ret
 
-00000104 <LCD_ClearScreen>:
- 104:	81 e0       	ldi	r24, 0x01	; 1
- 106:	f5 cf       	rjmp	.-22     	; 0xf2 <LCD_WriteCommand>
+000000f4 <writerc522>:
+  f4:	cf 93       	push	r28
+  f6:	c6 2f       	mov	r28, r22
+  f8:	2c 98       	cbi	0x05, 4	; 5
+  fa:	88 0f       	add	r24, r24
+  fc:	8e 77       	andi	r24, 0x7E	; 126
+  fe:	ec df       	rcall	.-40     	; 0xd8 <SPI_MasterTransmit>
+ 100:	8c 2f       	mov	r24, r28
+ 102:	ea df       	rcall	.-44     	; 0xd8 <SPI_MasterTransmit>
+ 104:	2c 9a       	sbi	0x05, 4	; 5
+ 106:	cf 91       	pop	r28
  108:	08 95       	ret
 
-0000010a <LCD_Cursor>:
- 10a:	81 31       	cpi	r24, 0x11	; 17
- 10c:	18 f4       	brcc	.+6      	; 0x114 <LCD_Cursor+0xa>
- 10e:	81 58       	subi	r24, 0x81	; 129
- 110:	f0 cf       	rjmp	.-32     	; 0xf2 <LCD_WriteCommand>
- 112:	08 95       	ret
- 114:	81 55       	subi	r24, 0x51	; 81
- 116:	ed cf       	rjmp	.-38     	; 0xf2 <LCD_WriteCommand>
- 118:	08 95       	ret
+0000010a <rc522init>:
+ 10a:	6f e0       	ldi	r22, 0x0F	; 15
+ 10c:	81 e0       	ldi	r24, 0x01	; 1
+ 10e:	f2 df       	rcall	.-28     	; 0xf4 <writerc522>
+ 110:	6d e8       	ldi	r22, 0x8D	; 141
+ 112:	8a e2       	ldi	r24, 0x2A	; 42
+ 114:	ef df       	rcall	.-34     	; 0xf4 <writerc522>
+ 116:	6e e3       	ldi	r22, 0x3E	; 62
+ 118:	8b e2       	ldi	r24, 0x2B	; 43
+ 11a:	ec df       	rcall	.-40     	; 0xf4 <writerc522>
+ 11c:	63 e0       	ldi	r22, 0x03	; 3
+ 11e:	8c e2       	ldi	r24, 0x2C	; 44
+ 120:	e9 df       	rcall	.-46     	; 0xf4 <writerc522>
+ 122:	68 ee       	ldi	r22, 0xE8	; 232
+ 124:	8d e2       	ldi	r24, 0x2D	; 45
+ 126:	e6 df       	rcall	.-52     	; 0xf4 <writerc522>
+ 128:	60 e4       	ldi	r22, 0x40	; 64
+ 12a:	85 e1       	ldi	r24, 0x15	; 21
+ 12c:	e3 df       	rcall	.-58     	; 0xf4 <writerc522>
+ 12e:	6d e3       	ldi	r22, 0x3D	; 61
+ 130:	81 e1       	ldi	r24, 0x11	; 17
+ 132:	e0 df       	rcall	.-64     	; 0xf4 <writerc522>
+ 134:	84 e1       	ldi	r24, 0x14	; 20
+ 136:	d6 df       	rcall	.-84     	; 0xe4 <readrc522>
+ 138:	68 2f       	mov	r22, r24
+ 13a:	63 60       	ori	r22, 0x03	; 3
+ 13c:	84 e1       	ldi	r24, 0x14	; 20
+ 13e:	da cf       	rjmp	.-76     	; 0xf4 <writerc522>
+ 140:	08 95       	ret
 
-0000011a <LCD_init>:
- 11a:	84 e6       	ldi	r24, 0x64	; 100
- 11c:	90 e0       	ldi	r25, 0x00	; 0
- 11e:	d4 df       	rcall	.-88     	; 0xc8 <delay_ms>
- 120:	88 e3       	ldi	r24, 0x38	; 56
- 122:	e7 df       	rcall	.-50     	; 0xf2 <LCD_WriteCommand>
- 124:	86 e0       	ldi	r24, 0x06	; 6
- 126:	e5 df       	rcall	.-54     	; 0xf2 <LCD_WriteCommand>
- 128:	8f e0       	ldi	r24, 0x0F	; 15
- 12a:	e3 df       	rcall	.-58     	; 0xf2 <LCD_WriteCommand>
- 12c:	81 e0       	ldi	r24, 0x01	; 1
- 12e:	e1 df       	rcall	.-62     	; 0xf2 <LCD_WriteCommand>
- 130:	8a e0       	ldi	r24, 0x0A	; 10
- 132:	90 e0       	ldi	r25, 0x00	; 0
- 134:	c9 cf       	rjmp	.-110    	; 0xc8 <delay_ms>
- 136:	08 95       	ret
+00000142 <rc522id>:
+ 142:	cf 93       	push	r28
+ 144:	df 93       	push	r29
+ 146:	60 e0       	ldi	r22, 0x00	; 0
+ 148:	8d e0       	ldi	r24, 0x0D	; 13
+ 14a:	d4 df       	rcall	.-88     	; 0xf4 <writerc522>
+ 14c:	6f e7       	ldi	r22, 0x7F	; 127
+ 14e:	84 e0       	ldi	r24, 0x04	; 4
+ 150:	d1 df       	rcall	.-94     	; 0xf4 <writerc522>
+ 152:	60 e8       	ldi	r22, 0x80	; 128
+ 154:	8a e0       	ldi	r24, 0x0A	; 10
+ 156:	ce df       	rcall	.-100    	; 0xf4 <writerc522>
+ 158:	60 e0       	ldi	r22, 0x00	; 0
+ 15a:	81 e0       	ldi	r24, 0x01	; 1
+ 15c:	cb df       	rcall	.-106    	; 0xf4 <writerc522>
+ 15e:	63 e9       	ldi	r22, 0x93	; 147
+ 160:	89 e0       	ldi	r24, 0x09	; 9
+ 162:	c8 df       	rcall	.-112    	; 0xf4 <writerc522>
+ 164:	60 e2       	ldi	r22, 0x20	; 32
+ 166:	89 e0       	ldi	r24, 0x09	; 9
+ 168:	c5 df       	rcall	.-118    	; 0xf4 <writerc522>
+ 16a:	6c e0       	ldi	r22, 0x0C	; 12
+ 16c:	81 e0       	ldi	r24, 0x01	; 1
+ 16e:	c2 df       	rcall	.-124    	; 0xf4 <writerc522>
+ 170:	8d e0       	ldi	r24, 0x0D	; 13
+ 172:	b8 df       	rcall	.-144    	; 0xe4 <readrc522>
+ 174:	68 2f       	mov	r22, r24
+ 176:	60 68       	ori	r22, 0x80	; 128
+ 178:	8d e0       	ldi	r24, 0x0D	; 13
+ 17a:	bc df       	rcall	.-136    	; 0xf4 <writerc522>
+ 17c:	c0 ed       	ldi	r28, 0xD0	; 208
+ 17e:	d7 e0       	ldi	r29, 0x07	; 7
+ 180:	84 e0       	ldi	r24, 0x04	; 4
+ 182:	b0 df       	rcall	.-160    	; 0xe4 <readrc522>
+ 184:	80 73       	andi	r24, 0x30	; 48
+ 186:	11 f4       	brne	.+4      	; 0x18c <rc522id+0x4a>
+ 188:	21 97       	sbiw	r28, 0x01	; 1
+ 18a:	d1 f7       	brne	.-12     	; 0x180 <rc522id+0x3e>
+ 18c:	8d e0       	ldi	r24, 0x0D	; 13
+ 18e:	aa df       	rcall	.-172    	; 0xe4 <readrc522>
+ 190:	68 2f       	mov	r22, r24
+ 192:	6f 77       	andi	r22, 0x7F	; 127
+ 194:	8d e0       	ldi	r24, 0x0D	; 13
+ 196:	ae df       	rcall	.-164    	; 0xf4 <writerc522>
+ 198:	89 e0       	ldi	r24, 0x09	; 9
+ 19a:	a4 df       	rcall	.-184    	; 0xe4 <readrc522>
+ 19c:	90 e0       	ldi	r25, 0x00	; 0
+ 19e:	df 91       	pop	r29
+ 1a0:	cf 91       	pop	r28
+ 1a2:	08 95       	ret
 
-00000138 <LCD_WriteData>:
- 138:	2e 9a       	sbi	0x05, 6	; 5
- 13a:	8b b9       	out	0x0b, r24	; 11
- 13c:	2f 9a       	sbi	0x05, 7	; 5
- 13e:	00 00       	nop
- 140:	2f 98       	cbi	0x05, 7	; 5
- 142:	81 e0       	ldi	r24, 0x01	; 1
- 144:	90 e0       	ldi	r25, 0x00	; 0
- 146:	c0 cf       	rjmp	.-128    	; 0xc8 <delay_ms>
- 148:	08 95       	ret
+000001a4 <rc522_wakeup>:
+ 1a4:	cf 93       	push	r28
+ 1a6:	df 93       	push	r29
+ 1a8:	67 e0       	ldi	r22, 0x07	; 7
+ 1aa:	8d e0       	ldi	r24, 0x0D	; 13
+ 1ac:	a3 df       	rcall	.-186    	; 0xf4 <writerc522>
+ 1ae:	84 e0       	ldi	r24, 0x04	; 4
+ 1b0:	99 df       	rcall	.-206    	; 0xe4 <readrc522>
+ 1b2:	68 2f       	mov	r22, r24
+ 1b4:	6f 77       	andi	r22, 0x7F	; 127
+ 1b6:	84 e0       	ldi	r24, 0x04	; 4
+ 1b8:	9d df       	rcall	.-198    	; 0xf4 <writerc522>
+ 1ba:	60 e8       	ldi	r22, 0x80	; 128
+ 1bc:	8a e0       	ldi	r24, 0x0A	; 10
+ 1be:	9a df       	rcall	.-204    	; 0xf4 <writerc522>
+ 1c0:	60 e0       	ldi	r22, 0x00	; 0
+ 1c2:	81 e0       	ldi	r24, 0x01	; 1
+ 1c4:	97 df       	rcall	.-210    	; 0xf4 <writerc522>
+ 1c6:	62 e5       	ldi	r22, 0x52	; 82
+ 1c8:	89 e0       	ldi	r24, 0x09	; 9
+ 1ca:	94 df       	rcall	.-216    	; 0xf4 <writerc522>
+ 1cc:	6c e0       	ldi	r22, 0x0C	; 12
+ 1ce:	81 e0       	ldi	r24, 0x01	; 1
+ 1d0:	91 df       	rcall	.-222    	; 0xf4 <writerc522>
+ 1d2:	8d e0       	ldi	r24, 0x0D	; 13
+ 1d4:	87 df       	rcall	.-242    	; 0xe4 <readrc522>
+ 1d6:	68 2f       	mov	r22, r24
+ 1d8:	60 68       	ori	r22, 0x80	; 128
+ 1da:	8d e0       	ldi	r24, 0x0D	; 13
+ 1dc:	8b df       	rcall	.-234    	; 0xf4 <writerc522>
+ 1de:	c0 ed       	ldi	r28, 0xD0	; 208
+ 1e0:	d7 e0       	ldi	r29, 0x07	; 7
+ 1e2:	84 e0       	ldi	r24, 0x04	; 4
+ 1e4:	7f df       	rcall	.-258    	; 0xe4 <readrc522>
+ 1e6:	21 97       	sbiw	r28, 0x01	; 1
+ 1e8:	e1 f7       	brne	.-8      	; 0x1e2 <rc522_wakeup+0x3e>
+ 1ea:	89 e0       	ldi	r24, 0x09	; 9
+ 1ec:	7b df       	rcall	.-266    	; 0xe4 <readrc522>
+ 1ee:	df 91       	pop	r29
+ 1f0:	cf 91       	pop	r28
+ 1f2:	08 95       	ret
 
-0000014a <LCD_DisplayString>:
- 14a:	0f 93       	push	r16
- 14c:	1f 93       	push	r17
- 14e:	cf 93       	push	r28
- 150:	df 93       	push	r29
- 152:	18 2f       	mov	r17, r24
- 154:	eb 01       	movw	r28, r22
- 156:	d6 df       	rcall	.-84     	; 0x104 <LCD_ClearScreen>
- 158:	88 81       	ld	r24, Y
- 15a:	88 23       	and	r24, r24
- 15c:	51 f0       	breq	.+20     	; 0x172 <LCD_DisplayString+0x28>
- 15e:	01 e0       	ldi	r16, 0x01	; 1
- 160:	01 0f       	add	r16, r17
- 162:	81 2f       	mov	r24, r17
- 164:	d2 df       	rcall	.-92     	; 0x10a <LCD_Cursor>
- 166:	89 91       	ld	r24, Y+
- 168:	e7 df       	rcall	.-50     	; 0x138 <LCD_WriteData>
- 16a:	10 2f       	mov	r17, r16
- 16c:	88 81       	ld	r24, Y
- 16e:	81 11       	cpse	r24, r1
- 170:	f6 cf       	rjmp	.-20     	; 0x15e <LCD_DisplayString+0x14>
- 172:	df 91       	pop	r29
- 174:	cf 91       	pop	r28
- 176:	1f 91       	pop	r17
- 178:	0f 91       	pop	r16
- 17a:	08 95       	ret
+000001f4 <TimerOn>:
+ 1f4:	8b e0       	ldi	r24, 0x0B	; 11
+ 1f6:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+ 1fa:	8d e7       	ldi	r24, 0x7D	; 125
+ 1fc:	90 e0       	ldi	r25, 0x00	; 0
+ 1fe:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
+ 202:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
+ 206:	82 e0       	ldi	r24, 0x02	; 2
+ 208:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7e006f>
+ 20c:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x7e0085>
+ 210:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x7e0084>
+ 214:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
+ 218:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__data_start+0x1>
+ 21c:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <__data_start+0x2>
+ 220:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <__data_start+0x3>
+ 224:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <_avr_timer_cntcurr>
+ 228:	90 93 08 01 	sts	0x0108, r25	; 0x800108 <_avr_timer_cntcurr+0x1>
+ 22c:	a0 93 09 01 	sts	0x0109, r26	; 0x800109 <_avr_timer_cntcurr+0x2>
+ 230:	b0 93 0a 01 	sts	0x010A, r27	; 0x80010a <_avr_timer_cntcurr+0x3>
+ 234:	8f b7       	in	r24, 0x3f	; 63
+ 236:	80 68       	ori	r24, 0x80	; 128
+ 238:	8f bf       	out	0x3f, r24	; 63
+ 23a:	08 95       	ret
 
-0000017c <TimerOn>:
- 17c:	8b e0       	ldi	r24, 0x0B	; 11
- 17e:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
- 182:	8d e7       	ldi	r24, 0x7D	; 125
- 184:	90 e0       	ldi	r25, 0x00	; 0
- 186:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
- 18a:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
- 18e:	82 e0       	ldi	r24, 0x02	; 2
- 190:	80 93 6f 00 	sts	0x006F, r24	; 0x80006f <__TEXT_REGION_LENGTH__+0x7e006f>
- 194:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x7e0085>
- 198:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x7e0084>
- 19c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 1a0:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__data_start+0x1>
- 1a4:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <__data_start+0x2>
- 1a8:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <__data_start+0x3>
- 1ac:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <_avr_timer_cntcurr>
- 1b0:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <_avr_timer_cntcurr+0x1>
- 1b4:	a0 93 29 01 	sts	0x0129, r26	; 0x800129 <_avr_timer_cntcurr+0x2>
- 1b8:	b0 93 2a 01 	sts	0x012A, r27	; 0x80012a <_avr_timer_cntcurr+0x3>
- 1bc:	8f b7       	in	r24, 0x3f	; 63
- 1be:	80 68       	ori	r24, 0x80	; 128
- 1c0:	8f bf       	out	0x3f, r24	; 63
- 1c2:	08 95       	ret
+0000023c <__vector_13>:
+ 23c:	1f 92       	push	r1
+ 23e:	0f 92       	push	r0
+ 240:	0f b6       	in	r0, 0x3f	; 63
+ 242:	0f 92       	push	r0
+ 244:	11 24       	eor	r1, r1
+ 246:	8f 93       	push	r24
+ 248:	9f 93       	push	r25
+ 24a:	af 93       	push	r26
+ 24c:	bf 93       	push	r27
+ 24e:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <_avr_timer_cntcurr>
+ 252:	90 91 08 01 	lds	r25, 0x0108	; 0x800108 <_avr_timer_cntcurr+0x1>
+ 256:	a0 91 09 01 	lds	r26, 0x0109	; 0x800109 <_avr_timer_cntcurr+0x2>
+ 25a:	b0 91 0a 01 	lds	r27, 0x010A	; 0x80010a <_avr_timer_cntcurr+0x3>
+ 25e:	01 97       	sbiw	r24, 0x01	; 1
+ 260:	a1 09       	sbc	r26, r1
+ 262:	b1 09       	sbc	r27, r1
+ 264:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <_avr_timer_cntcurr>
+ 268:	90 93 08 01 	sts	0x0108, r25	; 0x800108 <_avr_timer_cntcurr+0x1>
+ 26c:	a0 93 09 01 	sts	0x0109, r26	; 0x800109 <_avr_timer_cntcurr+0x2>
+ 270:	b0 93 0a 01 	sts	0x010A, r27	; 0x80010a <_avr_timer_cntcurr+0x3>
+ 274:	89 2b       	or	r24, r25
+ 276:	8a 2b       	or	r24, r26
+ 278:	8b 2b       	or	r24, r27
+ 27a:	99 f4       	brne	.+38     	; 0x2a2 <__vector_13+0x66>
+ 27c:	81 e0       	ldi	r24, 0x01	; 1
+ 27e:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <TimerFlag>
+ 282:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
+ 286:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__data_start+0x1>
+ 28a:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <__data_start+0x2>
+ 28e:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <__data_start+0x3>
+ 292:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <_avr_timer_cntcurr>
+ 296:	90 93 08 01 	sts	0x0108, r25	; 0x800108 <_avr_timer_cntcurr+0x1>
+ 29a:	a0 93 09 01 	sts	0x0109, r26	; 0x800109 <_avr_timer_cntcurr+0x2>
+ 29e:	b0 93 0a 01 	sts	0x010A, r27	; 0x80010a <_avr_timer_cntcurr+0x3>
+ 2a2:	bf 91       	pop	r27
+ 2a4:	af 91       	pop	r26
+ 2a6:	9f 91       	pop	r25
+ 2a8:	8f 91       	pop	r24
+ 2aa:	0f 90       	pop	r0
+ 2ac:	0f be       	out	0x3f, r0	; 63
+ 2ae:	0f 90       	pop	r0
+ 2b0:	1f 90       	pop	r1
+ 2b2:	18 95       	reti
 
-000001c4 <__vector_13>:
- 1c4:	1f 92       	push	r1
- 1c6:	0f 92       	push	r0
- 1c8:	0f b6       	in	r0, 0x3f	; 63
- 1ca:	0f 92       	push	r0
- 1cc:	11 24       	eor	r1, r1
- 1ce:	8f 93       	push	r24
- 1d0:	9f 93       	push	r25
- 1d2:	af 93       	push	r26
- 1d4:	bf 93       	push	r27
- 1d6:	80 91 27 01 	lds	r24, 0x0127	; 0x800127 <_avr_timer_cntcurr>
- 1da:	90 91 28 01 	lds	r25, 0x0128	; 0x800128 <_avr_timer_cntcurr+0x1>
- 1de:	a0 91 29 01 	lds	r26, 0x0129	; 0x800129 <_avr_timer_cntcurr+0x2>
- 1e2:	b0 91 2a 01 	lds	r27, 0x012A	; 0x80012a <_avr_timer_cntcurr+0x3>
- 1e6:	01 97       	sbiw	r24, 0x01	; 1
- 1e8:	a1 09       	sbc	r26, r1
- 1ea:	b1 09       	sbc	r27, r1
- 1ec:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <_avr_timer_cntcurr>
- 1f0:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <_avr_timer_cntcurr+0x1>
- 1f4:	a0 93 29 01 	sts	0x0129, r26	; 0x800129 <_avr_timer_cntcurr+0x2>
- 1f8:	b0 93 2a 01 	sts	0x012A, r27	; 0x80012a <_avr_timer_cntcurr+0x3>
- 1fc:	89 2b       	or	r24, r25
- 1fe:	8a 2b       	or	r24, r26
- 200:	8b 2b       	or	r24, r27
- 202:	99 f4       	brne	.+38     	; 0x22a <__vector_13+0x66>
- 204:	81 e0       	ldi	r24, 0x01	; 1
- 206:	80 93 2b 01 	sts	0x012B, r24	; 0x80012b <TimerFlag>
- 20a:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_start>
- 20e:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__data_start+0x1>
- 212:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <__data_start+0x2>
- 216:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <__data_start+0x3>
- 21a:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <_avr_timer_cntcurr>
- 21e:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <_avr_timer_cntcurr+0x1>
- 222:	a0 93 29 01 	sts	0x0129, r26	; 0x800129 <_avr_timer_cntcurr+0x2>
- 226:	b0 93 2a 01 	sts	0x012A, r27	; 0x80012a <_avr_timer_cntcurr+0x3>
- 22a:	bf 91       	pop	r27
- 22c:	af 91       	pop	r26
- 22e:	9f 91       	pop	r25
- 230:	8f 91       	pop	r24
- 232:	0f 90       	pop	r0
- 234:	0f be       	out	0x3f, r0	; 63
- 236:	0f 90       	pop	r0
- 238:	1f 90       	pop	r1
- 23a:	18 95       	reti
+000002b4 <tick2>:
+//RFID
 
-0000023c <LCDFSM>:
+enum rfid{wait1, getcode} state;
 
-enum LCDStates { lcdInit, no_package, package } lcdState;
-	
-void LCDFSM(unsigned char print){
-	switch(lcdState) { //Transitions
- 23c:	90 91 2d 01 	lds	r25, 0x012D	; 0x80012d <lcdState>
- 240:	91 30       	cpi	r25, 0x01	; 1
- 242:	41 f0       	breq	.+16     	; 0x254 <LCDFSM+0x18>
- 244:	18 f0       	brcs	.+6      	; 0x24c <LCDFSM+0x10>
- 246:	92 30       	cpi	r25, 0x02	; 2
- 248:	59 f0       	breq	.+22     	; 0x260 <LCDFSM+0x24>
- 24a:	10 c0       	rjmp	.+32     	; 0x26c <LCDFSM+0x30>
-		case lcdInit: 
-			lcdState = no_package;
- 24c:	81 e0       	ldi	r24, 0x01	; 1
- 24e:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <lcdState>
-			break;
- 252:	0f c0       	rjmp	.+30     	; 0x272 <LCDFSM+0x36>
-			
-		case no_package:
-			if(print == 1){
- 254:	81 30       	cpi	r24, 0x01	; 1
- 256:	69 f4       	brne	.+26     	; 0x272 <LCDFSM+0x36>
-				lcdState = package;
- 258:	82 e0       	ldi	r24, 0x02	; 2
- 25a:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <lcdState>
- 25e:	0f c0       	rjmp	.+30     	; 0x27e <LCDFSM+0x42>
-				lcdState = no_package;
-			}
-			break;
-			
-		case package:
-			if(print == 0){
- 260:	81 11       	cpse	r24, r1
- 262:	0d c0       	rjmp	.+26     	; 0x27e <LCDFSM+0x42>
-				lcdState = no_package;
- 264:	81 e0       	ldi	r24, 0x01	; 1
- 266:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <lcdState>
- 26a:	03 c0       	rjmp	.+6      	; 0x272 <LCDFSM+0x36>
-				lcdState = package;
-			}
-			break;
-			
+int tick2(int state){
+	switch(state){
+ 2b4:	89 2b       	or	r24, r25
+ 2b6:	29 f0       	breq	.+10     	; 0x2c2 <tick2+0xe>
+		state = wait1;
+		break;
+	}
+	switch(state){
+		case wait1:
+		code = 0x00;
+ 2b8:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <code>
+		//PORTA = 0xFF;
+		break;
+ 2bc:	80 e0       	ldi	r24, 0x00	; 0
+ 2be:	90 e0       	ldi	r25, 0x00	; 0
+ 2c0:	08 95       	ret
+		case getcode:
+		piccpresent = rc522_wakeup(); //check if tag is present
+ 2c2:	70 df       	rcall	.-288    	; 0x1a4 <rc522_wakeup>
+ 2c4:	80 93 0e 01 	sts	0x010E, r24	; 0x80010e <piccpresent>
+		if(piccpresent == 0x04){
+ 2c8:	84 30       	cpi	r24, 0x04	; 4
+ 2ca:	31 f4       	brne	.+12     	; 0x2d8 <tick2+0x24>
+			code = rc522id(); //get id from tag
+ 2cc:	3a df       	rcall	.-396    	; 0x142 <rc522id>
+ 2ce:	80 93 0f 01 	sts	0x010F, r24	; 0x80010f <code>
+enum rfid{wait1, getcode} state;
+
+int tick2(int state){
+	switch(state){
+		case wait1:
+		state = getcode;
+ 2d2:	81 e0       	ldi	r24, 0x01	; 1
+ 2d4:	90 e0       	ldi	r25, 0x00	; 0
+ 2d6:	08 95       	ret
+		if(piccpresent == 0x04){
+			code = rc522id(); //get id from tag
+		}
+		else
+		{
+			code = 0x00;
+ 2d8:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <code>
+enum rfid{wait1, getcode} state;
+
+int tick2(int state){
+	switch(state){
+		case wait1:
+		state = getcode;
+ 2dc:	81 e0       	ldi	r24, 0x01	; 1
+ 2de:	90 e0       	ldi	r25, 0x00	; 0
 		default:
-			lcdState = lcdInit;
- 26c:	10 92 2d 01 	sts	0x012D, r1	; 0x80012d <lcdState>
- 270:	08 95       	ret
-	switch(lcdState) { //State actions
-		case lcdInit:
-			break;
-		
-		case no_package:
-			LCD_ClearScreen();
- 272:	48 df       	rcall	.-368    	; 0x104 <LCD_ClearScreen>
-			LCD_DisplayString(1, "PakSafe is empty");
- 274:	64 e0       	ldi	r22, 0x04	; 4
- 276:	71 e0       	ldi	r23, 0x01	; 1
- 278:	81 e0       	ldi	r24, 0x01	; 1
- 27a:	67 cf       	rjmp	.-306    	; 0x14a <LCD_DisplayString>
-			break;
- 27c:	08 95       	ret
-		
-		case package:
-			LCD_ClearScreen();
- 27e:	42 df       	rcall	.-380    	; 0x104 <LCD_ClearScreen>
-			LCD_DisplayString(1, "Package inside");
- 280:	65 e1       	ldi	r22, 0x15	; 21
- 282:	71 e0       	ldi	r23, 0x01	; 1
- 284:	81 e0       	ldi	r24, 0x01	; 1
- 286:	61 cf       	rjmp	.-318    	; 0x14a <LCD_DisplayString>
- 288:	08 95       	ret
+		//code = 0x00;
+		break;
+	}
+	return state;
+}
+ 2e0:	08 95       	ret
 
-0000028a <PakSafe>:
-unsigned char print = 0x00;
+000002e2 <PakSafe>:
+//RFID
 
 enum PakStates { Init, locked_np, unlocked_rfid, locked_p, unlocked_keypad } State;
 
-void PakSafe(unsigned char RFID, unsigned char IR, unsigned char keypad) {
+void PakSafe() {
 	switch(State) { // Transitions
- 28a:	90 91 2c 01 	lds	r25, 0x012C	; 0x80012c <State>
- 28e:	92 30       	cpi	r25, 0x02	; 2
- 290:	d9 f0       	breq	.+54     	; 0x2c8 <PakSafe+0x3e>
- 292:	28 f4       	brcc	.+10     	; 0x29e <PakSafe+0x14>
- 294:	99 23       	and	r25, r25
- 296:	41 f0       	breq	.+16     	; 0x2a8 <PakSafe+0x1e>
- 298:	91 30       	cpi	r25, 0x01	; 1
- 29a:	51 f0       	breq	.+20     	; 0x2b0 <PakSafe+0x26>
- 29c:	2d c0       	rjmp	.+90     	; 0x2f8 <PakSafe+0x6e>
- 29e:	93 30       	cpi	r25, 0x03	; 3
- 2a0:	c9 f0       	breq	.+50     	; 0x2d4 <PakSafe+0x4a>
- 2a2:	94 30       	cpi	r25, 0x04	; 4
- 2a4:	19 f1       	breq	.+70     	; 0x2ec <PakSafe+0x62>
- 2a6:	28 c0       	rjmp	.+80     	; 0x2f8 <PakSafe+0x6e>
+ 2e2:	80 91 0d 01 	lds	r24, 0x010D	; 0x80010d <State>
+ 2e6:	82 30       	cpi	r24, 0x02	; 2
+ 2e8:	e9 f0       	breq	.+58     	; 0x324 <PakSafe+0x42>
+ 2ea:	28 f4       	brcc	.+10     	; 0x2f6 <PakSafe+0x14>
+ 2ec:	88 23       	and	r24, r24
+ 2ee:	41 f0       	breq	.+16     	; 0x300 <PakSafe+0x1e>
+ 2f0:	81 30       	cpi	r24, 0x01	; 1
+ 2f2:	51 f0       	breq	.+20     	; 0x308 <PakSafe+0x26>
+ 2f4:	34 c0       	rjmp	.+104    	; 0x35e <PakSafe+0x7c>
+ 2f6:	83 30       	cpi	r24, 0x03	; 3
+ 2f8:	f1 f0       	breq	.+60     	; 0x336 <PakSafe+0x54>
+ 2fa:	84 30       	cpi	r24, 0x04	; 4
+ 2fc:	51 f1       	breq	.+84     	; 0x352 <PakSafe+0x70>
+ 2fe:	2f c0       	rjmp	.+94     	; 0x35e <PakSafe+0x7c>
 		case Init:
 			State = locked_np;
- 2a8:	81 e0       	ldi	r24, 0x01	; 1
- 2aa:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
+ 300:	81 e0       	ldi	r24, 0x01	; 1
+ 302:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
 			break;
- 2ae:	27 c0       	rjmp	.+78     	; 0x2fe <PakSafe+0x74>
+ 306:	3c c0       	rjmp	.+120    	; 0x380 <PakSafe+0x9e>
 
 		case locked_np: //no package
-			if(RFID == 1){
- 2b0:	81 30       	cpi	r24, 0x01	; 1
- 2b2:	21 f4       	brne	.+8      	; 0x2bc <PakSafe+0x32>
+			if(code == 0xD0){ //card
+ 308:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <code>
+ 30c:	80 3d       	cpi	r24, 0xD0	; 208
+ 30e:	21 f4       	brne	.+8      	; 0x318 <PakSafe+0x36>
 				State = unlocked_rfid;
- 2b4:	82 e0       	ldi	r24, 0x02	; 2
- 2b6:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2ba:	30 c0       	rjmp	.+96     	; 0x31c <PakSafe+0x92>
+ 310:	82 e0       	ldi	r24, 0x02	; 2
+ 312:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+ 316:	44 c0       	rjmp	.+136    	; 0x3a0 <PakSafe+0xbe>
 			}
-			else if(keypad == 1){
- 2bc:	41 30       	cpi	r20, 0x01	; 1
- 2be:	f9 f4       	brne	.+62     	; 0x2fe <PakSafe+0x74>
+			else if(code == 0x1B){ //keychain
+ 318:	8b 31       	cpi	r24, 0x1B	; 27
+ 31a:	91 f5       	brne	.+100    	; 0x380 <PakSafe+0x9e>
 				State = unlocked_keypad;
- 2c0:	84 e0       	ldi	r24, 0x04	; 4
- 2c2:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2c6:	49 c0       	rjmp	.+146    	; 0x35a <PakSafe+0xd0>
-				State = locked_np;
+ 31c:	84 e0       	ldi	r24, 0x04	; 4
+ 31e:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+ 322:	67 c0       	rjmp	.+206    	; 0x3f2 <PakSafe+0x110>
+			*/
+			//------------TIMER DELAY
+			for(int i = 0; i > 5; i++){
+				
 			}
+			State = locked_p;
+ 324:	83 e0       	ldi	r24, 0x03	; 3
+ 326:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+			pcount++;
+ 32a:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <__data_end>
+ 32e:	8f 5f       	subi	r24, 0xFF	; 255
+ 330:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <__data_end>
 			break;
-
-		case unlocked_rfid:
-			if(IR == 1){
- 2c8:	61 30       	cpi	r22, 0x01	; 1
- 2ca:	41 f5       	brne	.+80     	; 0x31c <PakSafe+0x92>
-				State = locked_p;
- 2cc:	83 e0       	ldi	r24, 0x03	; 3
- 2ce:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2d2:	33 c0       	rjmp	.+102    	; 0x33a <PakSafe+0xb0>
-				State = unlocked_rfid;
-			}
-			break;
+ 334:	17 c0       	rjmp	.+46     	; 0x364 <PakSafe+0x82>
 
 		case locked_p: //package
-			if(RFID == 1){
- 2d4:	81 30       	cpi	r24, 0x01	; 1
- 2d6:	21 f4       	brne	.+8      	; 0x2e0 <PakSafe+0x56>
+			if(code == 0xD0){ //card
+ 336:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <code>
+ 33a:	80 3d       	cpi	r24, 0xD0	; 208
+ 33c:	21 f4       	brne	.+8      	; 0x346 <PakSafe+0x64>
 				State = unlocked_rfid;
- 2d8:	82 e0       	ldi	r24, 0x02	; 2
- 2da:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2de:	1e c0       	rjmp	.+60     	; 0x31c <PakSafe+0x92>
+ 33e:	82 e0       	ldi	r24, 0x02	; 2
+ 340:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+ 344:	2d c0       	rjmp	.+90     	; 0x3a0 <PakSafe+0xbe>
 			}
-			else if(keypad == 1){
- 2e0:	41 30       	cpi	r20, 0x01	; 1
- 2e2:	59 f5       	brne	.+86     	; 0x33a <PakSafe+0xb0>
+			else if(code == 0x1B){ //keychain
+ 346:	8b 31       	cpi	r24, 0x1B	; 27
+ 348:	a9 f5       	brne	.+106    	; 0x3b4 <PakSafe+0xd2>
 				State = unlocked_keypad;
- 2e4:	84 e0       	ldi	r24, 0x04	; 4
- 2e6:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2ea:	37 c0       	rjmp	.+110    	; 0x35a <PakSafe+0xd0>
-				State = locked_p;
+ 34a:	84 e0       	ldi	r24, 0x04	; 4
+ 34c:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+ 350:	50 c0       	rjmp	.+160    	; 0x3f2 <PakSafe+0x110>
+			}*/
+			//----------TIMER DELAY
+			for(int i = 0; i > 5; i++){
+				
 			}
+			State = locked_np;
+ 352:	81 e0       	ldi	r24, 0x01	; 1
+ 354:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <State>
+			pcount = 0x00;
+ 358:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <__data_end>
 			break;
-		
-		case unlocked_keypad:
-			if(IR == 1){
- 2ec:	61 30       	cpi	r22, 0x01	; 1
- 2ee:	a9 f5       	brne	.+106    	; 0x35a <PakSafe+0xd0>
-				State = locked_np;
- 2f0:	81 e0       	ldi	r24, 0x01	; 1
- 2f2:	80 93 2c 01 	sts	0x012C, r24	; 0x80012c <State>
- 2f6:	03 c0       	rjmp	.+6      	; 0x2fe <PakSafe+0x74>
-				State = unlocked_keypad;
-			}
-			break;
+ 35c:	03 c0       	rjmp	.+6      	; 0x364 <PakSafe+0x82>
 		
 		default:
 			State = Init;
- 2f8:	10 92 2c 01 	sts	0x012C, r1	; 0x80012c <State>
- 2fc:	08 95       	ret
+ 35e:	10 92 0d 01 	sts	0x010D, r1	; 0x80010d <State>
+ 362:	08 95       	ret
+			break;
+	} // END Transitions
+
 	switch(State) { // State actions
+ 364:	80 91 0d 01 	lds	r24, 0x010D	; 0x80010d <State>
+ 368:	82 30       	cpi	r24, 0x02	; 2
+ 36a:	d1 f0       	breq	.+52     	; 0x3a0 <PakSafe+0xbe>
+ 36c:	20 f4       	brcc	.+8      	; 0x376 <PakSafe+0x94>
+ 36e:	81 30       	cpi	r24, 0x01	; 1
+ 370:	09 f0       	breq	.+2      	; 0x374 <PakSafe+0x92>
+ 372:	48 c0       	rjmp	.+144    	; 0x404 <__LOCK_REGION_LENGTH__+0x4>
+ 374:	05 c0       	rjmp	.+10     	; 0x380 <PakSafe+0x9e>
+ 376:	83 30       	cpi	r24, 0x03	; 3
+ 378:	e9 f0       	breq	.+58     	; 0x3b4 <PakSafe+0xd2>
+ 37a:	84 30       	cpi	r24, 0x04	; 4
+ 37c:	d1 f1       	breq	.+116    	; 0x3f2 <PakSafe+0x110>
+ 37e:	08 95       	ret
 		case Init:
 			break;
 
 		case locked_np:
+			tick2(wait1);
+ 380:	80 e0       	ldi	r24, 0x00	; 0
+ 382:	90 e0       	ldi	r25, 0x00	; 0
+ 384:	97 df       	rcall	.-210    	; 0x2b4 <tick2>
 			lock = 0; //closed
- 2fe:	10 92 25 01 	sts	0x0125, r1	; 0x800125 <lock>
-			print = 0; //"No Package";
- 302:	10 92 24 01 	sts	0x0124, r1	; 0x800124 <__data_end>
+ 386:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <lock>
 //--------------------END Timer Code------------------------
 
 
 // Bit-access function
 unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
 	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
- 306:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <tmpB>
- 30a:	8c 7f       	andi	r24, 0xFC	; 252
+ 38a:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <tmpB>
+ 38e:	8e 7f       	andi	r24, 0xFE	; 254
 
 		case locked_np:
+			tick2(wait1);
 			lock = 0; //closed
-			print = 0; //"No Package";
+			//print = 0; //"No Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
- 30c:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <tmpB>
-			LCDFSM(print);
- 310:	80 e0       	ldi	r24, 0x00	; 0
- 312:	94 df       	rcall	.-216    	; 0x23c <LCDFSM>
-			PORTB = tmpB;
- 314:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <tmpB>
- 318:	85 b9       	out	0x05, r24	; 5
+ 390:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <tmpB>
+			//tmpB = SetBit(tmpB, 1, print);
+			//LCDFSM(print); 
+			PORTA = 0x01;//power and nopackage
+ 394:	81 e0       	ldi	r24, 0x01	; 1
+ 396:	82 b9       	out	0x02, r24	; 2
+			PORTD = tmpB;
+ 398:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <tmpB>
+ 39c:	8b b9       	out	0x0b, r24	; 11
 			break;
- 31a:	08 95       	ret
+ 39e:	08 95       	ret
 
 		case unlocked_rfid:
 			lock = 1; //open
- 31c:	81 e0       	ldi	r24, 0x01	; 1
- 31e:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <lock>
-			print = 1; //"Package";
- 322:	80 93 24 01 	sts	0x0124, r24	; 0x800124 <__data_end>
+ 3a0:	81 e0       	ldi	r24, 0x01	; 1
+ 3a2:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <lock>
 //--------------------END Timer Code------------------------
 
 
 // Bit-access function
 unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
 	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
- 326:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <tmpB>
- 32a:	83 60       	ori	r24, 0x03	; 3
+ 3a6:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <tmpB>
+ 3aa:	81 60       	ori	r24, 0x01	; 1
+			break;
 
 		case unlocked_rfid:
 			lock = 1; //open
-			print = 1; //"Package";
+			//print = 1; //"Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
- 32c:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <tmpB>
-			PORTB = tmpB;
- 330:	85 b9       	out	0x05, r24	; 5
-			LCDFSM(print);
- 332:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <__data_end>
- 336:	82 cf       	rjmp	.-252    	; 0x23c <LCDFSM>
+ 3ac:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <tmpB>
+			//tmpB = SetBit(tmpB, 1, print);
+			PORTD = tmpB;
+ 3b0:	8b b9       	out	0x0b, r24	; 11
+			//LCDFSM(print);
+			//-------------------nothing
 			break;
- 338:	08 95       	ret
+ 3b2:	08 95       	ret
 
 		case locked_p:
+			tick2(wait1);
+ 3b4:	80 e0       	ldi	r24, 0x00	; 0
+ 3b6:	90 e0       	ldi	r25, 0x00	; 0
+ 3b8:	7d df       	rcall	.-262    	; 0x2b4 <tick2>
 			lock = 0; //closed
- 33a:	10 92 25 01 	sts	0x0125, r1	; 0x800125 <lock>
-			print = 1; //"Package";
- 33e:	81 e0       	ldi	r24, 0x01	; 1
- 340:	80 93 24 01 	sts	0x0124, r24	; 0x800124 <__data_end>
+ 3ba:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <lock>
 //--------------------END Timer Code------------------------
 
 
 // Bit-access function
 unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
 	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
- 344:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <tmpB>
- 348:	8e 7f       	andi	r24, 0xFE	; 254
- 34a:	82 60       	ori	r24, 0x02	; 2
+ 3be:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <tmpB>
+ 3c2:	8e 7f       	andi	r24, 0xFE	; 254
 
 		case locked_p:
+			tick2(wait1);
 			lock = 0; //closed
-			print = 1; //"Package";
+			//print = 1; //"Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
- 34c:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <tmpB>
-			PORTB = tmpB;
- 350:	85 b9       	out	0x05, r24	; 5
-			LCDFSM(print);
- 352:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <__data_end>
- 356:	72 cf       	rjmp	.-284    	; 0x23c <LCDFSM>
+ 3c4:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <tmpB>
+			//tmpB = SetBit(tmpB, 1, print);
+			PORTD = tmpB;
+ 3c8:	8b b9       	out	0x0b, r24	; 11
+			//LCDFSM(print);
+			if(pcount == 1){
+ 3ca:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <__data_end>
+ 3ce:	81 30       	cpi	r24, 0x01	; 1
+ 3d0:	19 f4       	brne	.+6      	; 0x3d8 <PakSafe+0xf6>
+				PORTA = 0x03;
+ 3d2:	83 e0       	ldi	r24, 0x03	; 3
+ 3d4:	82 b9       	out	0x02, r24	; 2
+ 3d6:	08 95       	ret
+			}
+			else if(pcount == 2){
+ 3d8:	82 30       	cpi	r24, 0x02	; 2
+ 3da:	19 f4       	brne	.+6      	; 0x3e2 <PakSafe+0x100>
+				PORTA = 0x07;
+ 3dc:	87 e0       	ldi	r24, 0x07	; 7
+ 3de:	82 b9       	out	0x02, r24	; 2
+ 3e0:	08 95       	ret
+			}
+			else if(pcount == 3){
+ 3e2:	83 30       	cpi	r24, 0x03	; 3
+ 3e4:	19 f4       	brne	.+6      	; 0x3ec <PakSafe+0x10a>
+				PORTA = 0x0F;
+ 3e6:	8f e0       	ldi	r24, 0x0F	; 15
+ 3e8:	82 b9       	out	0x02, r24	; 2
+ 3ea:	08 95       	ret
+			}
+			else{
+				PORTA = 0x1F;
+ 3ec:	8f e1       	ldi	r24, 0x1F	; 31
+ 3ee:	82 b9       	out	0x02, r24	; 2
+ 3f0:	08 95       	ret
+			}
 			break;
- 358:	08 95       	ret
 
 		case unlocked_keypad:
 			lock = 1; //open
- 35a:	81 e0       	ldi	r24, 0x01	; 1
- 35c:	80 93 25 01 	sts	0x0125, r24	; 0x800125 <lock>
-			print = 0; //"No Package";
- 360:	10 92 24 01 	sts	0x0124, r1	; 0x800124 <__data_end>
+ 3f2:	81 e0       	ldi	r24, 0x01	; 1
+ 3f4:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <lock>
 //--------------------END Timer Code------------------------
 
 
 // Bit-access function
 unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
 	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
- 364:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <tmpB>
- 368:	8d 7f       	andi	r24, 0xFD	; 253
- 36a:	81 60       	ori	r24, 0x01	; 1
+ 3f8:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <tmpB>
+ 3fc:	81 60       	ori	r24, 0x01	; 1
+			break;
 
 		case unlocked_keypad:
 			lock = 1; //open
-			print = 0; //"No Package";
+			//print = 0; //"No Package";
 			tmpB = SetBit(tmpB, 0, lock);
-			tmpB = SetBit(tmpB, 1, print);
- 36c:	80 93 26 01 	sts	0x0126, r24	; 0x800126 <tmpB>
-			PORTB = tmpB;
- 370:	85 b9       	out	0x05, r24	; 5
-			LCDFSM(print);
- 372:	80 91 24 01 	lds	r24, 0x0124	; 0x800124 <__data_end>
- 376:	62 cf       	rjmp	.-316    	; 0x23c <LCDFSM>
- 378:	08 95       	ret
+ 3fe:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <tmpB>
+			//tmpB = SetBit(tmpB, 1, print);
+			PORTD = tmpB;
+ 402:	8b b9       	out	0x0b, r24	; 11
+ 404:	08 95       	ret
 
-0000037a <main>:
+00000406 <main>:
 }
 
 
 int main(void){
-	//input
-	DDRC = 0x00; //sets to 0 for input
- 37a:	17 b8       	out	0x07, r1	; 7
-	PORTC = 0xFF; //initializes to all 1s
- 37c:	8f ef       	ldi	r24, 0xFF	; 255
- 37e:	88 b9       	out	0x08, r24	; 8
-
-	//output
-	DDRA = 0xFF; //sets to 1 for output
- 380:	81 b9       	out	0x01, r24	; 1
-	PORTA = 0x00; //sets to all 0s
- 382:	12 b8       	out	0x02, r1	; 2
-	DDRB = 0xFF; //sets to 1 for output
- 384:	84 b9       	out	0x04, r24	; 4
-	PORTB = 0x00; //sets to all 0s
- 386:	15 b8       	out	0x05, r1	; 5
-	DDRD = 0xFF; //sets to 1 for output
- 388:	8a b9       	out	0x0a, r24	; 10
-	PORTD = 0x00; //sets to all 0s
- 38a:	1b b8       	out	0x0b, r1	; 11
-	unsigned char RFID = 0x00;
-	unsigned char IR = 0x00;
-	unsigned char keypad = 0x00;
 	
-	// Initializes the LCD display
-	LCD_init();
- 38c:	c6 de       	rcall	.-628    	; 0x11a <LCD_init>
+	SPI_MasterInit();
+ 406:	60 de       	rcall	.-832    	; 0xc8 <SPI_MasterInit>
+	rc522init();
+ 408:	80 de       	rcall	.-768    	; 0x10a <rc522init>
+	DDRA = 0xFF; //sets to 1 for output
+ 40a:	8f ef       	ldi	r24, 0xFF	; 255
+ 40c:	81 b9       	out	0x01, r24	; 1
+	PORTA = 0x00; //sets to all 0s
+ 40e:	12 b8       	out	0x02, r1	; 2
+	//DDRB = 0xFF; //sets to 1 for output
+	//PORTB = 0x00; //sets to all 0s
+	DDRC = 0x00; //sets to 0 for input
+ 410:	17 b8       	out	0x07, r1	; 7
+	PORTC = 0xFF; //initializes to all 1s
+ 412:	88 b9       	out	0x08, r24	; 8
+	DDRD = 0xFF; //sets to 1 for output
+ 414:	8a b9       	out	0x0a, r24	; 10
+	PORTD = 0x00; //sets to all 0s
+ 416:	1b b8       	out	0x0b, r1	; 11
 	}
 }
 
 // Set TimerISR() to tick every M ms
 void TimerSet(unsigned long M) {
 	_avr_timer_M = M;
- 38e:	8a e0       	ldi	r24, 0x0A	; 10
- 390:	90 e0       	ldi	r25, 0x00	; 0
- 392:	a0 e0       	ldi	r26, 0x00	; 0
- 394:	b0 e0       	ldi	r27, 0x00	; 0
- 396:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
- 39a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
- 39e:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__data_start+0x2>
- 3a2:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__data_start+0x3>
+ 418:	80 e5       	ldi	r24, 0x50	; 80
+ 41a:	90 e0       	ldi	r25, 0x00	; 0
+ 41c:	a0 e0       	ldi	r26, 0x00	; 0
+ 41e:	b0 e0       	ldi	r27, 0x00	; 0
+ 420:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
+ 424:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
+ 428:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__data_start+0x2>
+ 42c:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__data_start+0x3>
 	_avr_timer_cntcurr = _avr_timer_M;
- 3a6:	80 93 27 01 	sts	0x0127, r24	; 0x800127 <_avr_timer_cntcurr>
- 3aa:	90 93 28 01 	sts	0x0128, r25	; 0x800128 <_avr_timer_cntcurr+0x1>
- 3ae:	a0 93 29 01 	sts	0x0129, r26	; 0x800129 <_avr_timer_cntcurr+0x2>
- 3b2:	b0 93 2a 01 	sts	0x012A, r27	; 0x80012a <_avr_timer_cntcurr+0x3>
+ 430:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <_avr_timer_cntcurr>
+ 434:	90 93 08 01 	sts	0x0108, r25	; 0x800108 <_avr_timer_cntcurr+0x1>
+ 438:	a0 93 09 01 	sts	0x0109, r26	; 0x800109 <_avr_timer_cntcurr+0x2>
+ 43c:	b0 93 0a 01 	sts	0x010A, r27	; 0x80010a <_avr_timer_cntcurr+0x3>
 	
 	// Initializes the LCD display
-	LCD_init();
+	//LCD_init();
 	
-	TimerSet(10);
+	TimerSet(80);
 	TimerOn();
- 3b6:	e2 de       	rcall	.-572    	; 0x17c <TimerOn>
+ 440:	d9 de       	rcall	.-590    	; 0x1f4 <TimerOn>
 	
 	State = Init; // Initial state
- 3b8:	10 92 2c 01 	sts	0x012C, r1	; 0x80012c <State>
-	lcdState = lcdInit;
- 3bc:	10 92 2d 01 	sts	0x012D, r1	; 0x80012d <lcdState>
+ 442:	10 92 0d 01 	sts	0x010D, r1	; 0x80010d <State>
+	//lcdState = lcdInit;
 	// Replace with your application code
 	while (1){
 		tmpA = ~PINC;
- 3c0:	86 b1       	in	r24, 0x06	; 6
- 3c2:	80 95       	com	r24
-// Bit-access function
-unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
-	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
-}
-unsigned char GetBit(unsigned char x, unsigned char k) {
-	return ((x & (0x01 << k)) != 0);
- 3c4:	68 2f       	mov	r22, r24
- 3c6:	70 e0       	ldi	r23, 0x00	; 0
- 3c8:	ab 01       	movw	r20, r22
- 3ca:	55 95       	asr	r21
- 3cc:	47 95       	ror	r20
- 3ce:	55 95       	asr	r21
- 3d0:	47 95       	ror	r20
- 3d2:	41 70       	andi	r20, 0x01	; 1
- 3d4:	75 95       	asr	r23
- 3d6:	67 95       	ror	r22
- 3d8:	61 70       	andi	r22, 0x01	; 1
+ 446:	86 b1       	in	r24, 0x06	; 6
 		
-		RFID = GetBit(tmpA, 0);
-		IR = GetBit(tmpA, 1);
-		keypad = GetBit(tmpA, 2);
+		//RFID = GetBit(tmpA, 0);
+		//IR = GetBit(tmpA, 1);
+		//keypad = GetBit(tmpA, 2);
 		
-		PakSafe(RFID, IR, keypad);
- 3da:	81 70       	andi	r24, 0x01	; 1
- 3dc:	56 df       	rcall	.-340    	; 0x28a <PakSafe>
+		PakSafe();
+ 448:	4c df       	rcall	.-360    	; 0x2e2 <PakSafe>
 		
 		while (!TimerFlag);	// Wait 1 sec
- 3de:	80 91 2b 01 	lds	r24, 0x012B	; 0x80012b <TimerFlag>
- 3e2:	88 23       	and	r24, r24
- 3e4:	e1 f3       	breq	.-8      	; 0x3de <main+0x64>
+ 44a:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <TimerFlag>
+ 44e:	88 23       	and	r24, r24
+ 450:	e1 f3       	breq	.-8      	; 0x44a <main+0x44>
 		TimerFlag = 0;
- 3e6:	10 92 2b 01 	sts	0x012B, r1	; 0x80012b <TimerFlag>
+ 452:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <TimerFlag>
 	}
- 3ea:	ea cf       	rjmp	.-44     	; 0x3c0 <main+0x46>
+ 456:	f7 cf       	rjmp	.-18     	; 0x446 <main+0x40>
 
-000003ec <_exit>:
- 3ec:	f8 94       	cli
+00000458 <_exit>:
+ 458:	f8 94       	cli
 
-000003ee <__stop_program>:
- 3ee:	ff cf       	rjmp	.-2      	; 0x3ee <__stop_program>
+0000045a <__stop_program>:
+ 45a:	ff cf       	rjmp	.-2      	; 0x45a <__stop_program>
